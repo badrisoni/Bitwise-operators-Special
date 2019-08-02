@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main()
+{
+    char * input=(char*)malloc(sizeof(char)*51200);
+    scanf("%s",input);
+    int len=strlen(input);
+    int rem=len%3;
+    int max=(len*4)/3 + 5;//maximun length of output string in worst case.
+    char * out=(char *)malloc(sizeof(char)*max);
+    char * base="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/0123456789";
+    int size=0;
+    int i=0;
+    while(i<len-rem)
+    {
+        out[size++]=base[ (input[i])>>2 ];
+        out[size++]=base[ (input[i] & 0x03)<<4 | (input[i+1])>>4 ];
+        out[size++]=base[ (input[i+1] & 0x0F)<<2 | (input[i+2])>>6];
+        out[size++]=base[ (input[i+2] & 0x3F) ];
+        i=i+3;
+    }
+    if(len%3==2)
+    {
+       out[size++]=base[ (input[i])>>2 ];
+       out[size++]=base[ (input[i] & 0x03)<<4 | (input[i+1])>>4 ];
+       out[size++]=base[ (input[i+1] & 0x0F)<<2 ];
+       out[size++]='=';
+    }
+    else if(len%3==1)
+    {
+        out[size++]=base[ (input[i])>>2 ];
+       out[size++]=base[ (input[i] & 0x03)<<4  ];
+       out[size++]='=';
+       out[size++]='=';
+    }
+    out[size]='\0';
+    printf("%s",out);
+    return 0;
+}
