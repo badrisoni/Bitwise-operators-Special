@@ -9,7 +9,7 @@ int main()
    int y= num & 0x55555555 & ~(-1 << (32-count));
     if(x==0 || y==0)
     {
-        printf("Yes");
+        printf("Yes ");
     }
     else
     printf("No");
